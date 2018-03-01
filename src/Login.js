@@ -24,14 +24,11 @@ class Login extends Component{
 
     }
 
-     b = 10;
-     c = 15
-
     handleSubmit(event){
         var username =  this.refs.usernameFld.getValue();
         var password =  this.refs.passwordFld.getValue();
         
-        console.log(username +":"+this.username +":"+b);
+        console.log(username +":"+this.username );
         console.log(password +":"+this.password);
 
         if(username === this.username && password === this.password){
