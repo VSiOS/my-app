@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Avatar from 'material-ui/Avatar';
@@ -36,19 +37,35 @@ class Login extends Component{
     }
 
     handleSubmit(event){
-        var username =  this.refs.usernameFld.getValue();
-        var password =  this.refs.passwordFld.getValue();
+        var u_name =  this.refs.usernameFld.getValue();
+        var p_word =  this.refs.passwordFld.getValue();
 
-        if(username === this.username && password === this.password){
-            this.setState({header: "Login success"});
-            this.findDomHandler(green600);
+        var url = 'https://private-33177f-vsios.apiary-mock.com/auth';
+        axios.post(url,{username:u_name, password:p_word}).then((response)=>{
+             var data = response.data;
+             console.log("response:"+JSON.stringify(data));
 
-        }
-        else{
-            this.setState({header: "Login failed"});
+             if(data){
+                 var error = data.error;
+                 if(error === '0'){
+                     this.setState({header : 'Login success'});
+                     this.findDomHandler(green600);
+
+                 }
+                 else{
+                    this.setState({header : 'Login failed'});
+                    this.findDomHandler(red600);
+
+                 }
+             }
+
+        }).catch(function(error){
+            this.setState({header : 'Login failed'});
             this.findDomHandler(red600);
-        }
-        this.createPassword(event)
+
+
+        });
+        
         event.preventDefault();
     }
 
